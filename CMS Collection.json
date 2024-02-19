@@ -1,0 +1,737 @@
+{
+	"info": {
+		"_postman_id": "a8c4de53-55cb-4ce8-90c3-6f2962fe27d3",
+		"name": "CMS Postman collection - Positive Scenarios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18523311"
+	},
+	"item": [
+		{
+			"name": "Manage Keyword List",
+			"item": [
+				{
+					"name": "Add KL",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"let requestType = pm.iterationData.get(\"request_type\");\r",
+									"console.log(requestType);\r",
+									"\r",
+									"if (requestType !== \"Add Keyword List\") {\r",
+									"    pm.execution.skipRequest();\r",
+									"      \r",
+									" }\r",
+									"\r",
+									"// let KLName = pm.iterationData.get(\"name\")+pm.variables.replaceIn('{{$randomFirstName}}');\r",
+									"\r",
+									"// pm.variables.set(\"KLName\",KLName);\r",
+									"// console.log(KLName);\r",
+									"\r",
+									"pm.collectionVariables.set(\"scenarioName\", data.scenarioName);\r",
+									"pm.request.name = pm.collectionVariables.get(\"scenarioName\");\r",
+									"console.log(pm.request.name);\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData=pm.response.json();\r",
+									"\r",
+									"if(pm.response.code===200){\r",
+									"pm.test(\"Check success message\", function () {\r",
+									"pm.expect(jsonData.messages[0]).to.have.string(pm.variables.get(\"expectedMessage\"));\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"admin_id\": \"{{admin_id}}\",\r\n    \"user_group_id\": \"{{user_group_id}}\",\r\n    \"name\": \"{{name}}\",\r\n    \"keywords\": [\r\n        {\r\n            \"term\": \"{{keyword1_term}}\",\r\n            \"percentage\": \"{{keyword1_percentage}}\"\r\n        },\r\n        {\r\n            \"term\": \"{{keyword2_term}}\",\r\n            \"percentage\": \"{{keyword2_percentage}}\"\r\n        },\r\n        {\r\n            \"term\": \"{{keyword3_term}}\",\r\n            \"percentage\": \"{{keyword3_percentage}}\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/keyword-list",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"keyword-list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update KL",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let requestType = pm.iterationData.get(\"request_type\");\r",
+									"console.log(requestType);\r",
+									"\r",
+									"\r",
+									"if (requestType !== \"Update Keyword List\") {\r",
+									"    pm.execution.skipRequest();\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData=pm.response.json();\r",
+									"if(pm.response.code===200){\r",
+									"pm.test(\"Check success message\", function () {\r",
+									"pm.expect(jsonData.messages[0]).to.have.string(pm.variables.get(\"expectedMessage\"));\r",
+									"});\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"admin_id\":\"{{admin_id}}\",\r\n    \"user_group_id\": \"{{user_group_id}}\",\r\n    \"id\": \"{{KeywordListId}}\",\r\n   \r\n    \"name\": \"{{name}}\",\r\n    \"keywords\": [\r\n        {\r\n            \"id\": \"{{keyword1_id}}\",\r\n            \"term\": \"{{keyword1_term}}\",\r\n            \"percentage\": \"{{keyword1_percentage}}\"\r\n        },\r\n        {\r\n            \"id\": \"{{keyword2_id}}\",\r\n            \"term\": \"{{keyword2_term}}\",\r\n            \"percentage\": \"{{keyword2_percentage}}\"\r\n        },\r\n        {\r\n            \"id\":\"{{keyword3_id}}\",\r\n            \"term\": \"{{keyword3_term}}\",\r\n            \"percentage\": \"{{keyword3_percentage}}\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/keyword-list/{{KeywordListId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"keyword-list",
+								"{{KeywordListId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get KL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"\r",
+									"let search = pm.iterationData.get(\"search\");\r",
+									"\r",
+									"if(pm.response.code ===200){\r",
+									"\r",
+									"switch (search) {\r",
+									"    case \"\":\r",
+									"      console.log(\"executing blank\");\r",
+									"        pm.test.skip(\"Test for blank search value for Keyword List id\",function() {\r",
+									"           \r",
+									"              \r",
+									"        });\r",
+									"        \r",
+									"        break;\r",
+									"    case \"null\":\r",
+									"      console.log(\"executing null\");\r",
+									"        pm.test(\"Test for blank value\", function () {\r",
+									"              pm.expect(jsonData.total).to.eql(0);\r",
+									"            // Your test code for 'value1'\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"        case \"invalid\":\r",
+									"        pm.test(\"Test for invalid ID\", function () {\r",
+									"            pm.expect(jsonData.total).to.eql(0); // Assuming 0 records for invalid ID\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"        case \"archana\": \r",
+									"        jsonData.rows.forEach(element => {\r",
+									"        pm.test(\"Test for Adminid for given admin name\", function () {\r",
+									"                pm.expect(element.AdminId).to.eql(9934);\r",
+									"          });    \r",
+									"        });\r",
+									"        \r",
+									"        break;\r",
+									"\r",
+									"   default:\r",
+									"        pm.test(\"Test for exact keyword list search- \" + search, function () {\r",
+									"                pm.expect(jsonData.total).to.eql(1);\r",
+									"            \r",
+									"        });\r",
+									"}\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let requestType = pm.iterationData.get(\"request_type\");\r",
+									"\r",
+									"if (requestType !== \"Get Keyword List\") {\r",
+									"    pm.execution.skipRequest();\r",
+									"      \r",
+									" }\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/keyword-list?search={{search}}&order={{order}}&status={{status}}&user_group_id={{user_group_id}}&page={{page}}&records={{records}}&sort_by={{sort_by}}&admin_id={{admin_id}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"keyword-list"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "{{search}}"
+								},
+								{
+									"key": "order",
+									"value": "{{order}}"
+								},
+								{
+									"key": "status",
+									"value": "{{status}}"
+								},
+								{
+									"key": "user_group_id",
+									"value": "{{user_group_id}}"
+								},
+								{
+									"key": "page",
+									"value": "{{page}}"
+								},
+								{
+									"key": "records",
+									"value": "{{records}}"
+								},
+								{
+									"key": "sort_by",
+									"value": "{{sort_by}}"
+								},
+								{
+									"key": "admin_id",
+									"value": "{{admin_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Keyword State",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let requestType = pm.iterationData.get(\"request_type\");\r",
+									"\r",
+									"if (requestType !== \"Change keyword status\") {\r",
+									"    pm.execution.skipRequest();\r",
+									"      \r",
+									" }"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData=pm.response.json();\r",
+									"\r",
+									"if(pm.response.code===200){\r",
+									"pm.test(\"Check success message\", function () {\r",
+									"pm.expect(jsonData.messages[0]).to.have.string(pm.variables.get(\"expectedMessage\"));\r",
+									"});\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"admin_id\":\"{{admin_id}}\",\r\n    \"user_group_id\": \"{{user_group_id}}\",\r\n    \"status\": {{status}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/keyword-list/{{KeywordListId}}/status",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"keyword-list",
+								"{{KeywordListId}}",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Manage Campaigns",
+			"item": [
+				{
+					"name": "Create Campaign",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"let requestType = pm.iterationData.get(\"request_type\");\r",
+									"console.log(requestType);\r",
+									"\r",
+									"if (requestType !== \"Create campaign\") {\r",
+									"    pm.execution.skipRequest();\r",
+									"      \r",
+									" }"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code===200){\r",
+									"pm.test(\"Check success message\", function () {\r",
+									"pm.expect(jsonData.messages[0]).to.have.string(pm.variables.get(\"expectedMessage\"));\r",
+									"});\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"name\":\"{{name}}\",\r\n     \"user_group_id\":{{ user_group_id}},\r\n     \"start_date\":\"{{start_date}}\",\r\n     \"vertical_id\":{{vertical_id}},\r\n     \"sub_vertical_id\":{{sub_vertical_id}},\r\n     \"end_date\":\"{{end_date}}\",\r\n     \"after_expiry\":\"{{after_expiry}}\",\r\n     \"admin_id\":{{admin_id}}, \r\n     \"publisher\": {\r\n    \"id\": {{publisher_id}},\r\n    \"payout_type\": \"{{payout_type}}\",\r\n    \"payout_value\": \"{{payout_value}}\",\r\n    \"expected_impressions\": {{expected_impressions}},\r\n    \"max_impressions\": {{max_impressions}},\r\n    \"tq_tracking\": \"{{tq_tracking}}\",\r\n    \"domain_id\": {{domain_id}}\r\n  },\r\n\r\n  \"keyword_lists\": [\r\n    {\r\n      \"id\": {{KeywordList1_id}},\r\n      \"keywords\": [\r\n        {\r\n          \"id\": {{keyword1_id}},\r\n          \"percentage\": {{keyword1_percentage}}\r\n        },\r\n       {\r\n          \"id\": {{keyword2_id}},\r\n          \"percentage\": {{keyword2_percentage}}\r\n        },\r\n\r\n        {\r\n          \"id\": {{keyword3_id}},\r\n          \"percentage\": {{keyword3_percentage}}\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"creatives\" : [\r\n   {{creative_id_1}},\r\n {{creative_id_2}}\r\n  ],\r\n  \"buckets\":[\r\n    {\r\n      \"is_catch_all\": {{bucket1_is_catch_all}},\r\n      \"name\": \"{{bucket1_name}}\",\r\n      \"percentage\": {{bucket1_percentage}},\r\n      \"ad_provider\":{{bucket1_ad_provider}},\r\n      \"keyword_list\": {{bucket1_Key_List}},\r\n      \"device\": \"{{bucket1_device}}\",\r\n      \"is_payable_to_publisher\": \"{{bucket1_pay_to_pub}}\",\r\n      \"template\": {{bucket1_template}}\r\n    },\r\n    {\r\n      \"is_catch_all\": {{bucket2_is_catch_all}},\r\n      \"name\": \"{{bucket2_name}}\",\r\n      \"percentage\": {{bucket2_percentage}},\r\n      \"ad_provider\":{{bucket2_ad_provider}},\r\n      \"keyword_list\": {{bucket2_Key_List}},\r\n      \"device\": \"{{bucket2_device}}\",\r\n      \"is_payable_to_publisher\": \"{{bucket2_pay_to_pub}}\",\r\n      \"template\": {{bucket2_template}}\r\n    }\r\n  ]\r\n    \r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/campaign",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"campaign"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Campaign",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"let requestType = pm.iterationData.get(\"request_type\");\r",
+									"console.log(requestType);\r",
+									"\r",
+									"if (requestType !== \"Edit campaign\") {\r",
+									"    pm.execution.skipRequest();\r",
+									"      \r",
+									" }"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code===200){\r",
+									"pm.test(\"Check success message\", function () {\r",
+									"pm.expect(jsonData.messages[0]).to.have.string(pm.variables.get(\"expectedMessage\"));\r",
+									"});\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"name\":\"{{name}}\",\r\n     \"user_group_id\":\"{{ user_group_id}}\",\r\n     \"start_date\":\"{{start_date}}\",\r\n     \"vertical_id\":\"{{vertical_id}}\",\r\n     \"sub_vertical_id\":\"{{sub_vertical_id}}\",\r\n     \"end_date\":\"{{end_date}}\",\r\n     \"after_expiry\":\"{{after_expiry}}\",\r\n     \"admin_id\":\"{{admin_id}}\",\r\n     \"publisher\": {\r\n    \"id\": \"{{publisher_id}}\",\r\n    \"payout_type\": \"{{payout_type}}\",\r\n    \"payout_value\": \"{{payout_value}}\",\r\n    \"expected_impressions\": {{expected_impressions}},\r\n    \"max_impressions\": {{max_impressions}},\r\n    \"tq_tracking\": \"{{tq_tracking}}\",\r\n    \"domain_id\": {{domain_id}},\r\n    \"rev_id\":{{rev_id}},\r\n    \"payout_created_on\":\"{{payout_created_on}}\",\r\n    \"payout_created_by\":\"{{payout_created_by}}\"\r\n  },\r\n\r\n  \"keyword_lists\": [\r\n    {\r\n      \"id\": {{KeywordList1_id}},\r\n      \"keywords\": [\r\n        {\r\n          \"id\": {{keyword1_id}},\r\n          \"percentage\": {{keyword1_percentage}}\r\n        },\r\n       {\r\n          \"id\": {{keyword2_id}},\r\n          \"percentage\": {{keyword2_percentage}}\r\n        },\r\n\r\n        {\r\n          \"id\": {{keyword3_id}},\r\n          \"percentage\": {{keyword3_percentage}}\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n   \"creatives\" : [\r\n  {{creative_id_1}},\r\n  {{creative_id_2}}\r\n  ],\r\n  \"buckets\":[\r\n    {\r\n      \"is_catch_all\": {{bucket1_is_catch_all}},\r\n      \"name\": \"{{bucket1_name}}\",\r\n      \"percentage\": {{bucket1_percentage}},\r\n      \"ad_provider\":{{bucket1_ad_provider}},\r\n      \"keyword_list\": {{bucket1_Key_List}},\r\n      \"device\": \"{{bucket1_device}}\",\r\n      \"is_payable_to_publisher\": \"{{bucket1_pay_to_pub}}\",\r\n      \"template\": {{bucket1_template}},\r\n      \"id\":{{bucket1_id}}\r\n    },\r\n    {\r\n      \"is_catch_all\": {{bucket2_is_catch_all}},\r\n      \"name\": \"{{bucket2_name}}\",\r\n      \"percentage\": {{bucket2_percentage}},\r\n      \"ad_provider\":{{bucket2_ad_provider}},\r\n      \"keyword_list\": {{bucket2_Key_List}},\r\n      \"device\": \"{{bucket2_device}}\",\r\n      \"is_payable_to_publisher\": \"{{bucket2_pay_to_pub}}\",\r\n      \"template\": {{bucket2_template}},\r\n       \"id\":{{bucket2_id}}\r\n    }\r\n  ]\r\n    \r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/campaign/{{campaignId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"campaign",
+								"{{campaignId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Campaign",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"let requestType = pm.iterationData.get(\"request_type\");\r",
+									"console.log(requestType);\r",
+									"\r",
+									"if (requestType !== \"Get campaign\") {\r",
+									"    pm.execution.skipRequest();\r",
+									"      \r",
+									" }"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"\r",
+									"let search = pm.iterationData.get(\"search\");\r",
+									"\r",
+									"if(pm.response.code ===200){\r",
+									"\r",
+									"switch (search) {\r",
+									"    case \"\":\r",
+									"      \r",
+									"        pm.test.skip(\"Skipping test since search is blank\",function() {\r",
+									"      });\r",
+									"     break;\r",
+									"\r",
+									"    case \"null\":\r",
+									"    case \"invalid\":\r",
+									"     \r",
+									"        pm.test(\"Test for blank/invalid value\", function () {\r",
+									"              pm.expect(jsonData.total).to.eql(0);\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"        case \"archana\": \r",
+									"        case \"Hype Test Account\": \r",
+									"        case \"9CUHTG7TY\": \r",
+									"\r",
+									"        jsonData.rows.forEach(element => {\r",
+									"        pm.test(\"Test for Adminid for given admin name\", function () {\r",
+									"                pm.expect(element.AdminId).to.eql(9934);\r",
+									"          });    \r",
+									"        });\r",
+									"        \r",
+									"        break;\r",
+									"\r",
+									"        \r",
+									"\r",
+									"   default:\r",
+									"        pm.test(\"Test for exact campaign search- \" + search, function () {\r",
+									"                pm.expect(jsonData.total).to.eql(1);\r",
+									"            \r",
+									"        });\r",
+									"}\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/campaign?search={{search}}&order={{order}}&own={{own}}&status={{status}}&page={{page}}&records={{records}}&admin_id={{admin_id}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"campaign"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "{{search}}"
+								},
+								{
+									"key": "order",
+									"value": "{{order}}"
+								},
+								{
+									"key": "own",
+									"value": "{{own}}"
+								},
+								{
+									"key": "status",
+									"value": "{{status}}"
+								},
+								{
+									"key": "page",
+									"value": "{{page}}"
+								},
+								{
+									"key": "records",
+									"value": "{{records}}"
+								},
+								{
+									"key": "admin_id",
+									"value": "{{admin_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Follow/Unfollow campaign",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let requestType = pm.iterationData.get(\"request_type\");\r",
+									"console.log(requestType);\r",
+									"\r",
+									"if (requestType !== \"Follow/Unfollow campaign\") {\r",
+									"    pm.execution.skipRequest();\r",
+									"      \r",
+									" }"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code===200){\r",
+									"pm.test(\"Check success message\", function () {\r",
+									"pm.expect(jsonData.messages[0]).to.have.string(pm.variables.get(\"expectedMessage\"));\r",
+									"});\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": {{status}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/campaign/{{campaignId}}/follow",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"campaign",
+								"{{campaignId}}",
+								"follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Campaign state",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let requestType = pm.iterationData.get(\"request_type\");\r",
+									"console.log(requestType);\r",
+									"\r",
+									"if (requestType !== \"Change campaign state\") {\r",
+									"    pm.execution.skipRequest();\r",
+									"      \r",
+									" }"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code===200){\r",
+									"pm.test(\"Check success message\", function () {\r",
+									"pm.expect(jsonData.messages[0]).to.have.string(pm.variables.get(\"expectedMessage\"));\r",
+									"});\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": {{status}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/campaign/{{campaignId}}/status",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"campaign",
+								"{{campaignId}}",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.environment.set(\"iterationName\", data.scenarioName);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"let jsonData = pm.response.json();",
+					"",
+					"pm.test(\"Status code is \" + pm.iterationData.get(\"expectedStatusCode\"), ()=> {",
+					"",
+					"  pm.expect(pm.response.code).to.eql(pm.variables.get(\"expectedStatusCode\"));",
+					"",
+					"});",
+					"",
+					"",
+					"pm.test(\"Response time is within acceptable limits\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(7000); ",
+					"});",
+					"",
+					"",
+					"if (pm.response.code ===422) {",
+					"var expectedMessage = pm.iterationData.get(\"expectedMessage\");",
+					"",
+					"// Loop through each message in the response body and compare with the expected messages",
+					"for (var i = 0; i < jsonData.messages.length; i++) {",
+					"    pm.test(\"Message \" + (i + 1) + \" should match with expected message\", function () {",
+					"      pm.expect(jsonData.messages[i]).to.equal(expectedMessage[i].trim());",
+					"    });",
+					"",
+					"}",
+					"",
+					"}",
+					"",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "scenarioName",
+			"value": ""
+		}
+	]
+}

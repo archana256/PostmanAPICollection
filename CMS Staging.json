@@ -1,0 +1,39 @@
+{
+	"id": "90e38f9a-d62a-4ecd-be68-ac87df2fcbc3",
+	"name": "CMS Staging",
+	"values": [
+		{
+			"key": "URL",
+			"value": "http://testdmapi.reports.mn/api",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "responseMessage",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "env",
+			"value": "CMS Staging",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "KeywordListId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "requestName",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2024-01-25T08:10:49.183Z",
+	"_postman_exported_using": "Postman/10.22.6"
+}
