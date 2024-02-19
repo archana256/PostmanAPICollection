@@ -3,7 +3,7 @@
         "scenarioName": "check adding keyword with valid data",
         "request_type": "Add Keyword List",
         "admin_id": 9934,
-        "user_group_id": 65,
+        "user_group_id": 63,
         "name": "test-api-auto-archana-1890",
         "keyword1_term": "test1",
         "keyword1_percentage": 25,
